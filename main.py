@@ -55,4 +55,17 @@ def handle_reminder(message):
         bot.send_message(message.chat.id, "Неверный формат даты или времени.")
 
 
+def handle_daily_reminder(self, message):
+    try:
+        datetime_str, reminder = message.text.split(' ', 1)
+        datetime_obj = datetime.datetime.strptime(datetime_str, '%H:%M %d-%m-%Y')
+        reminder_time = datetime_obj.strftime('%H:%M')
+        reminder_date = datetime_obj.strftime('%d-%m-%Y')
+        schedule.every().day.at(reminder_time).do()
+        bot.send_message(
+            chat_id=message.chat.id,
+            text=f"Напоминание создано: {reminder_time} {reminder_date} - {reminder}",
+            reply_markup=self.get_main_keyboard()
+
+
 
